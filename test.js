@@ -36,4 +36,22 @@ describe('parse-csv', function() {
     var actual = csv(str, {headers: {included: true}});
     assert.equal(actual, expected);
   });
+
+  it('should optionally ignore missing columns', function() {
+    var str = [
+      'id,fruit,vegetable',
+      '1,apple,carrot',
+      '2,orange,corn',
+      '3',
+    ].join('\n');
+
+    var expected = [
+      '[{"id":"1","fruit":"apple","vegetable":"carrot"},',
+      '{"id":"2","fruit":"orange","vegetable":"corn"},',
+      '{"id":"3","fruit":"","vegetable":""}]',
+    ].join('\n');
+
+    var actual = csv(str, {headers: {included: true}, ignoreMissingColumns: true});
+    assert.equal(actual, expected);
+  });
 });
